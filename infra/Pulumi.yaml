@@ -1,0 +1,7 @@
+name: sourdough-go-web-k8s-infra
+description: The infrastructure setup of this go program
+runtime: go
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: go
