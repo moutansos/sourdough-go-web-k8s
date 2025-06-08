@@ -33,5 +33,7 @@ done
 rm ./README.md
 mv ./README.template.md ./README.md
 
+mv ./.github.disabled/ ./.github/
+
 #Remove Setup File
 rm ./setup.sh
