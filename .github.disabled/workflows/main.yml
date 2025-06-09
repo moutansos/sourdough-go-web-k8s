@@ -39,7 +39,7 @@ jobs:
           token: ${{ secrets.REPO_TOKEN }}
       - name: Deploy
         run: |
-          export PULUMI_ACCESS_TOKEN="${{ secrey.PULUMI_ACCESS_TOKEN }}"
+          export PULUMI_ACCESS_TOKEN="${{ secrets.PULUMI_ACCESS_TOKEN }}"
           export BW_ACCESS_TOKEN="${{ secrets.BW_ACCESS_TOKEN }}"
           export PULUMI_K8S_ENABLE_PATCH_FORCE="true"
           curl -fsSL https://get.pulumi.com | sh
