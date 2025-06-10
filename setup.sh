@@ -1,6 +1,5 @@
 #!/bin/bash
 
-TEMPLATE_NAME="sourdough-go-web-k8s"
 METADATA_FILE="metadata.json"
 
 function update_file {
@@ -9,7 +8,7 @@ function update_file {
     local app_full_name=$(jq '.fullName' $METADATA_FILE)
     local template_name=$(jq '.templateName' $METADATA_FILE)
 
-    sed -i -e "s/$TEMPLATE_NAME/$app_name/g" $file_name
+    sed -i -e "s/$template_name/$app_name/g" $file_name
     sed -i -e "s/{APP_NAME}/$app_full_name/g" $file_name
 }
 
