@@ -1,14 +1,16 @@
 #!/bin/bash
 
-APP_NAME="$1"
-APP_FULL_NAME="$2"
-
 TEMPLATE_NAME="sourdough-go-web-k8s"
+METADATA_FILE="metadata.json"
 
 function update_file {
     local file_name="$1"
-    sed -i -e "s/$TEMPLATE_NAME/$APP_NAME/g" $file_name
-    sed -i -e "s/{APP_NAME}/$APP_FULL_NAME/g" $file_name
+    local app_name=$(jq '.repoName' $METADATA_FILE)
+    local app_full_name=$(jq '.fullName' $METADATA_FILE)
+    local template_name=$(jq '.templateName' $METADATA_FILE)
+
+    sed -i -e "s/$TEMPLATE_NAME/$app_name/g" $file_name
+    sed -i -e "s/{APP_NAME}/$app_full_name/g" $file_name
 }
 
 GIT_IGNORED = ""
