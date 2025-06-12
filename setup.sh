@@ -2,9 +2,9 @@
 
 METADATA_FILE="metadata.json"
 
-local APP_NAME=$(jq  -r '.repoName' $METADATA_FILE)
-local APP_FULL_NAME=$(jq -r '.fullName' $METADATA_FILE)
-local TEMPLATE_NAME=$(jq -r '.templateName' $METADATA_FILE)
+APP_NAME=$(jq  -r '.repoName' $METADATA_FILE)
+APP_FULL_NAME=$(jq -r '.fullName' $METADATA_FILE)
+TEMPLATE_NAME=$(jq -r '.templateName' $METADATA_FILE)
 
 function update_file {
     local file_name="$1"
