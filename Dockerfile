@@ -26,9 +26,9 @@ WORKDIR /app
 COPY --from=builder /app/main /app/main
 
 # Copy Assets
-COPY --from=builder /app/src/static /app/static
-COPY --from=builder /app/src/components /app/components
-COPY --from=builder /app/src/pages /app/pages
+# COPY --from=builder /app/src/static /app/static
+# COPY --from=builder /app/src/components /app/components
+# COPY --from=builder /app/src/pages /app/pages
 
 # Ensure the binary is executable
 RUN chmod +x /app/main
