@@ -39,3 +39,7 @@ mv ./.github.disabled/ ./.github/
 
 #Remove Setup File
 rm ./setup.sh
+
+#Commit the things
+git add .
+git commit -m "chore: run setup"
