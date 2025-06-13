@@ -27,7 +27,7 @@ func main() {
 			return fmt.Errorf("The pulumi config containerTag does not exist!")
 		}
 
-		containerImageName := fmt.Sprintf("ghcr.io/msyke/project-codex:%s", containerTag)
+		containerImageName := fmt.Sprintf("ghcr.io/moutansos/%s:%s", common.APP_NAME, containerTag)
 
 		namespace, nsExists := ctx.GetConfig(fmt.Sprintf("%s:namespace", common.APP_NAME))
 		if !nsExists {
