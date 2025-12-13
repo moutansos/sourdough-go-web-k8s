@@ -1,9 +1,9 @@
 name: Build and Deploy to Kubernetes
 
-on:
-  push:
-    branches:
-      - main # Change this if you want to trigger on a different branch
+on: workflow_dispatch
+  # push:
+  #   branches:
+  #     - main # Change this if you want to trigger on a different branch
 env:
   REPO_URL: ghcr.io/moutansos/sourdough-go-web-k8s:${{ github.sha }}
 jobs:
