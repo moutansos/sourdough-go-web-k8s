@@ -20,7 +20,7 @@ type BwCtx struct {
 func InitBw() (*BwCtx, error) {
 	secretMap := make(map[string]string)
 
-	bwAccessToken := os.Getenv("BW_ACCESS_TOKEN")
+	bwAccessToken := os.Getenv("BWS_ACCESS_TOKEN")
 	bwClient, err := bitwarden.NewBitwardenClient(nil, nil)
 	if err != nil {
 		return nil, err

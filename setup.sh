@@ -48,3 +48,6 @@ git commit -m "chore: run setup"
 cd ./infra/
 pulumi stack init dev
 cd ..
+
+echo "Setup complete! Please review the changes and push them to your repository."
+echo "Also, please review the Slack Webhook URL ENV variable. It needs to be created seperately for this app for error reporting. Deployment will fail without it."

@@ -6,6 +6,7 @@ SCRIPT_ROOT="$(dirname "$0")"
 MAIN_PROJECT="$SCRIPT_ROOT/src"
 BUILD_OUTPUT_DIR="$SCRIPT_ROOT/.build_output"
 TOOL_DIR="$BUILD_OUTPUT_DIR/tools"
+REPO_HOST="code.msyke.dev"
 
 function dir_init {
     if [ ! -d "$BUILD_OUTPUT_DIR" ]; then
@@ -158,6 +159,7 @@ if [[ "$build_app_flag" == "true" || "$local_flag" == "true" ]]; then
   print_stage "Building Application"
   dir_init
 
+  go env -w GOPRIVATE=$REPO_HOST
   time go build -o $BUILD_OUTPUT_DIR/app ./src/
 
   if [[ "$?" -ne 0 ]]; then
@@ -172,6 +174,7 @@ if [[ "$build_infra_flag" == "true" || "$local_flag" == "true" ]]; then
   print_stage "Building Infrastructure-as-Code Project"
   dir_init
 
+  go env -w GOPRIVATE=$REPO_HOST
   go env -w CGO_ENABLED=1
   go env -w CC=musl-gcc
   time go build -ldflags '-linkmode external -extldflags "-static -Wl,-unresolved-symbols=ignore-all"' -o $BUILD_OUTPUT_DIR/infra ./infra/
@@ -187,7 +190,7 @@ fi
 if [[ "$docker_build_flag" == "true" || "$local_flag" == "true" ]]; then
   print_stage "Building Docker Image"
 
-  docker build -t "code.msyke.dev/private/$CONTAINER_NAME:$docker_container_tag" .
+  docker build -t "$REPO_HOST/private/$CONTAINER_NAME:$docker_container_tag" .
 
   if [[ "$?" -ne 0 ]]; then
     printf "\nFailed to build Docker image\n"
@@ -208,10 +211,10 @@ if [[ "$docker_push_flag" == "true" ]]; then
     exit 1
   fi
 
-  full_container_tag="code.msyke.dev/private/$CONTAINER_NAME:$docker_container_tag"
+  full_container_tag="$REPO_HOST/private/$CONTAINER_NAME:$docker_container_tag"
   echo "Pushing image: $full_container_tag"
   DOCKER_PASSWORD=$(get_bitwarden_secret 'GITEA_PAT')
-  echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin "code.msyke.dev/msyke"
+  echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin "$REPO_HOST/msyke"
   docker push "$full_container_tag"
 
   if [[ "$?" -ne 0 ]]; then
@@ -232,6 +235,7 @@ if [[ "$local_flag" == "true" || "$pulumi_preview_flag" == "true" ]]; then
   pulumi stack select "$env_name" --non-interactive
   pulumi --non-interactive config -s dev set containerTag "$docker_container_tag"
 
+  go env -w GOPRIVATE=$REPO_HOST
   go env -w CGO_ENABLED=1
   go env -w CC=musl-gcc
   go build -ldflags '-linkmode external -extldflags "-static -Wl,-unresolved-symbols=ignore-all"' -o bin/project-codex-infra . 
@@ -267,6 +271,7 @@ if [ "$pulumi_deploy_flag" == "true" ]; then
   pulumi stack select "$env_name"
   pulumi --non-interactive config -s "$env_name" set containerTag "$docker_container_tag"
 
+  go env -w GOPRIVATE=$REPO_HOST
   go env -w CGO_ENABLED=1
   go env -w CC=musl-gcc
   go build -ldflags '-linkmode external -extldflags "-static -Wl,-unresolved-symbols=ignore-all"' -o bin/project-codex-infra . 

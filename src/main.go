@@ -11,7 +11,7 @@ import (
 
 	charmlog "github.com/charmbracelet/log"
 	"github.com/joho/godotenv"
-	"github.com/moutansos/sourdough-go-web-k8s/common"
+	"code.msyke.dev/mSyke/sourdough-go-web-k8s/common"
 	slogmulti "github.com/samber/slog-multi"
 	slogslack "github.com/samber/slog-slack/v2"
 )

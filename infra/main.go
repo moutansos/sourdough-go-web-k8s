@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/moutansos/sourdough-go-web-k8s/common"
-	"github.com/moutansos/sourdough-go-web-k8s/infra/bw"
+	"code.msyke.dev/mSyke/sourdough-go-web-k8s/common"
+	"code.msyke.dev/mSyke/sourdough-go-web-k8s/infra/bw"
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
 	appsv1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/apps/v1"
 	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
@@ -21,15 +21,15 @@ func main() {
 		}
 	
 		//TODO: Replace all instances of the app name with the comon variable for ease of swapping
-		containerTag, ctExists := ctx.GetConfig(fmt.Sprintf("%s:containerTag", common.APP_NAME))
+		containerTag, ctExists := ctx.GetConfig(fmt.Sprintf("%s-infra:containerTag", common.APP_NAME))
 		fmt.Printf("ContainerTag: %s\n", containerTag)
 		if !ctExists {
 			return fmt.Errorf("The pulumi config containerTag does not exist!")
 		}
 
-		containerImageName := fmt.Sprintf("ghcr.io/moutansos/%s:%s", common.APP_NAME, containerTag)
+		containerImageName := fmt.Sprintf("code.msyke.dev/private/%s:%s", common.APP_NAME, containerTag)
 
-		namespace, nsExists := ctx.GetConfig(fmt.Sprintf("%s:namespace", common.APP_NAME))
+		namespace, nsExists := ctx.GetConfig(fmt.Sprintf("%s-infra:namespace", common.APP_NAME))
 		if !nsExists {
 			return fmt.Errorf("The pulumi config namespace does not exist!")
 		}
@@ -88,7 +88,7 @@ func main() {
 						},
 						ImagePullSecrets: &corev1.LocalObjectReferenceArray{
 							&corev1.LocalObjectReferenceArgs{
-								Name: pulumi.String("ghcr-secret"),
+								Name: pulumi.String("gitea-image-pull-secret"),
 							},
 						},
 					},

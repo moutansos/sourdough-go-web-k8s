@@ -1,7 +1,7 @@
 # Stage 1: Build the Go binary
 FROM golang:1.22.2-alpine AS builder
 
-LABEL org.opencontainers.image.source=https://github.com/moutansos/sourdough-go-web-k8s
+LABEL org.opencontainers.image.source=https://code.msyke.dev/mSyke/sourdough-go-web-k8s
 
 # Set working directory in the container
 WORKDIR /app

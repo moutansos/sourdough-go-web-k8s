@@ -1,4 +1,4 @@
-module github.com/moutansos/sourdough-go-web-k8s/infra
+module code.msyke.dev/mSyke/sourdough-go-web-k8s/infra
 
 go 1.22.2
 

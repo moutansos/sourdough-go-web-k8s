@@ -1,4 +1,4 @@
-module github.com/moutansos/sourdough-go-web-k8s
+module code.msyke.dev/mSyke/sourdough-go-web-k8s
 
 go 1.22.2
 
