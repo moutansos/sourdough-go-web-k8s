@@ -7,6 +7,8 @@ MAIN_PROJECT="$SCRIPT_ROOT/src"
 BUILD_OUTPUT_DIR="$SCRIPT_ROOT/.build_output"
 TOOL_DIR="$BUILD_OUTPUT_DIR/tools"
 REPO_HOST="code.msyke.dev"
+BINARY_NAME="sourdough-go-web-k8s"
+INFRA_BINARY_NAME="$BINARY_NAME-infra"
 
 function dir_init {
     if [ ! -d "$BUILD_OUTPUT_DIR" ]; then
@@ -238,7 +240,7 @@ if [[ "$local_flag" == "true" || "$pulumi_preview_flag" == "true" ]]; then
   go env -w GOPRIVATE=$REPO_HOST
   go env -w CGO_ENABLED=1
   go env -w CC=musl-gcc
-  go build -ldflags '-linkmode external -extldflags "-static -Wl,-unresolved-symbols=ignore-all"' -o bin/project-codex-infra . 
+  go build -ldflags '-linkmode external -extldflags "-static -Wl,-unresolved-symbols=ignore-all"' -o bin/$INFRA_BINARY_NAME . 
   
   if [ $? -ne 0 ]; then
     echo "Failed to build Pulumi program."
@@ -274,7 +276,7 @@ if [ "$pulumi_deploy_flag" == "true" ]; then
   go env -w GOPRIVATE=$REPO_HOST
   go env -w CGO_ENABLED=1
   go env -w CC=musl-gcc
-  go build -ldflags '-linkmode external -extldflags "-static -Wl,-unresolved-symbols=ignore-all"' -o bin/project-codex-infra . 
+  go build -ldflags '-linkmode external -extldflags "-static -Wl,-unresolved-symbols=ignore-all"' -o bin/$INFRA_BINARY_NAME . 
   
   if [ $? -ne 0 ]; then
     echo "Failed to build Pulumi program."
