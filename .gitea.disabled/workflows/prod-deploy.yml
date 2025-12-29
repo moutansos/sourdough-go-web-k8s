@@ -24,4 +24,4 @@ jobs:
         env:
           BWS_ACCESS_TOKEN: ${{ secrets.BWS_ACCESS_TOKEN }}
         run: |
-          ./build.sh --pulumi-deploy --docker-tag ${{ env.CONTAINER_TAG }} --env production
+          ./build.sh --pulumi-deploy --docker-tag ${{ env.CONTAINER_TAG }} --env prod

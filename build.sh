@@ -155,6 +155,25 @@ function get_bitwarden_secret {
     echo "$secret_value"
 }
 
+function get_pulumi_output {
+    local output_name="$1"
+    local key_name="$2"
+
+    local output=$(pulumi stack output --stack "$output_name" --non-interactive --json --show-secrets)
+
+    if [ $? -ne 0 ]; then
+        echo "Failed to retrieve Pulumi output."
+        exit 1
+    fi
+
+    echo "$output" | jq -r --arg KEY "$key_name" '.[$KEY]'
+
+    if [ $? -ne 0 ]; then
+        echo "Failed to retrieve Pulumi output by key."
+        exit 1
+    fi
+}
+
 # Stages
 
 if [[ "$build_app_flag" == "true" || "$local_flag" == "true" ]]; then
@@ -308,8 +327,9 @@ if [[ "$gen_local_env_flag" == "true" ]]; then
 
   echo "Generating local environment file at $env_file"
   
-  # Place all required environment variables here to be generated from bitwarden. 
+  # TODO: Place all required environment variables here to be generated from bitwarden. 
   # Use this format: KEY=$(get_bitwarden_secret 'MY_SECRET_NAME')
+  # OR: KEY=$(get_pulumi_output 'moutansos/<<stack name>>/<<env name>>' 'output-key')
   cat << EOF > "$env_file"
 APP_ENV=local
 
